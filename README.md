@@ -1,94 +1,72 @@
-Healthcare Management System
+# Healthcare Management System
 
-A GraphQL-based healthcare management system that allows users to manage patients, doctors, appointments, prescriptions, and medical records. This system provides features such as adding doctors, managing appointments, and prescribing medicines.
-Features
+A powerful healthcare management system built with Node.js, GraphQL, and Sequelize to manage appointments, users (patients & doctors), prescriptions, and more. The system allows patients to book appointments with doctors, doctors to prescribe medicines, and patients to access their medical history.
 
-    Users: Patients and doctors with separate roles.
-    Appointments: Patients can book appointments with doctors.
-    Doctors: Doctors can have specialties, availability slots, and reviews.
-    Prescriptions: Doctors can prescribe medication to patients after consultations.
-    Medical Records: Patients can access their medical history.
+## Features
 
-Project Structure
+- **User Management**: Role-based authentication for Patients and Doctors.
+- **Appointments**: Patients can book appointments with doctors.
+- **Prescriptions**: Doctors can prescribe medicines to patients after consultations.
+- **Medical History**: Patients can access their past medical records.
+- **Doctor Management**: Doctors can manage their availability and specialties.
 
-The project is organized as follows:
+## Tech Stack
 
-/healthcare-management
-|-- /graphql
-|   |-- /typeDefs
-|   |   |-- userTypeDefs.js
-|   |   |-- doctorTypeDefs.js
-|   |   |-- appointmentTypeDefs.js
-|   |
-|   |-- /resolvers
-|   |   |-- userResolvers.js
-|   |   |-- doctorResolvers.js
-|   |   |-- appointmentResolvers.js
-|   |
-|   |-- index.js
-|
-|-- /models
-|   |-- index.js
-|   |-- user.js
-|   |-- doctor.js
-|   |-- appointment.js
-|   |-- prescription.js
-|
-|-- server.js
-|-- package.json
-|-- .env
+- **Node.js**: JavaScript runtime for building the backend.
+- **GraphQL**: API layer to handle client queries and mutations.
+- **Sequelize**: ORM for interacting with the database (SQLite used for development).
+- **Express.js**: Web framework for creating the API.
+- **Apollo Server**: For setting up the GraphQL server.
 
-Directories:
+## Installation
 
-    /graphql: Contains GraphQL schema files (typeDefs) and resolver files.
-    /models: Contains Sequelize models for the database entities such as Users, Doctors, Appointments, and Prescriptions.
-    server.js: Entry point for the application, where the Apollo server is initialized and Express middleware is applied.
+To get started with the project, follow these steps:
 
-Setup and Installation
-Prerequisites
+### 1. Clone the Repository
 
-Ensure that you have the following installed:
+```bash
+git clone https://github.com/abhay321/healthcare-management.git
+cd healthcare-management 
+```
 
-    Node.js
-    SQLite3 (or any other database you are using)
+### 2. Install Dependencies
 
-1. Clone the repository
-
-Clone the repository to your local machine:
-
-git clone https://github.com/your-repo/healthcare-management.git
-cd healthcare-management
-
-2. Install dependencies
-
-Run the following command to install required Node.js packages:
-
+```bash
 npm install
+```
+This will install all the necessary dependencies listed in package.json.
 
-3. Setup Environment Variables
+### 3. Configure Database
 
-Create a .env file in the root of the project and configure your environment variables (optional):
+Before running the application, make sure to set up your database connection in the appropriate file (models/index.js for Sequelize).
 
-DATABASE_URL=sqlite://./database.sqlite  # If using SQLite
-PORT=4000
+```bash
 
-4. Sync Database
+```
+### 4. Run the Application
 
-The app uses Sequelize ORM for database management. The database will be automatically synced when the server starts.
-5. Start the Server
+Start the application with:
 
-Run the following command to start the server:
-
+```bash
 npm start
+```
 
-The server should now be running at http://localhost:4000/graphql.
-GraphQL API
+The application will be running on http://localhost:4000.
 
-You can test the GraphQL API using any GraphQL client like Apollo Studio, Postman, or GraphiQL. Below are some sample queries and mutations you can use.
-Sample Queries
+Usage
+```bash
+http://localhost:4000/graphql
+```
+Once the server is running, you can access the GraphQL Playground at:
+```bash
+http://localhost:4000/graphql
+```
 
-Get All Doctors:
+GraphQL Queries
 
+Here are a few example queries you can use in GraphQL Playground:
+Get All Doctors
+```bash
 query {
   getDoctors {
     id
@@ -96,77 +74,39 @@ query {
     specialty
   }
 }
+```
 
-Get a Doctor by ID:
+Get All Patients
 
+```bash
 query {
-  getDoctorById(id: "1") {
+  getPatients {
     id
     name
-    specialty
+    email
   }
 }
+```
 
-Get All Users (Patients and Doctors):
+Book an Appointment
 
-query {
-  getUsers {
-    id
-    name
-    role
-  }
-}
-
-Sample Mutations
-
-Add a Doctor:
-
+```bash
 mutation {
-  addDoctor(name: "Dr. John Doe", specialty: "Cardiology") {
-    id
-    name
-    specialty
-  }
-}
-
-Add an Appointment:
-
-mutation {
-  addAppointment(patientId: "1", doctorId: "2", date: "2025-03-11T10:00:00Z", status: "Scheduled") {
+  bookAppointment(doctorId: 1, patientId: 1, date: "2025-03-12T10:00:00Z") {
     id
     date
     status
-    patientId
-    doctorId
   }
 }
 
-Add Prescription:
+```
 
-mutation {
-  addPrescription(doctorId: "1", patientId: "2", medicine: "Aspirin", dosage: "1 pill per day") {
-    id
-    medicine
-    dosage
-    doctorId
-    patientId
-  }
-}
+Contributing
 
-Database Models
+We welcome contributions! If you'd like to contribute, please follow these steps:
 
-    User Model: Represents a user, which can either be a patient or a doctor.
-    Doctor Model: Represents a doctor with specialties and availability slots.
-    Appointment Model: Represents an appointment between a patient and a doctor.
-    Prescription Model: Represents a prescription issued by a doctor for a patient.
-    Medical Records: A patient's historical medical information stored by doctors.
-
-Troubleshooting
-
-    Error: Cannot find module
-        Ensure all modules are installed correctly by running npm install.
-        Ensure the correct file paths in your imports.
-
-    Error: ValidationError
-        Check if all the required fields are provided in your GraphQL mutations.
-        Ensure that the foreign keys are valid in your database (e.g., doctor and patient IDs must exist when creating appointments).
+    Fork the repository.
+    Create a new branch for your feature or bug fix.
+    Commit your changes with clear messages.
+    Push your branch to your fork.
+    Open a pull request with a clear description of your changes.
